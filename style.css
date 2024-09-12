@@ -1405,8 +1405,8 @@ input[type=submit]:hover {
 }
 .error {
     color: red;
-    font-size: 0.9em;
-    margin-top: 5px;
+    font-size: 1.1em;
+    margin-top: -2px;
 }
 .social-media-container{
    display: flex;
