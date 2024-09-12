@@ -1,67 +1,63 @@
-const btn = document.getElementById('button');
+const btn = document.getElementById('btn-click');
 
-document.getElementById('form')
- .addEventListener('submit', function(event) {
-   event.preventDefault();
+document.getElementById('form').addEventListener('submit', function(event) {
+  event.preventDefault();
 
-   btn.value = 'Sending...';
+  // Form validation
+  const name = document.getElementById('fname');
+  const email = document.getElementById('email');
+  const message = document.getElementById('message');
+  const name_error = document.getElementById('name_error');
+  const email_error = document.getElementById('email_error');
+  const message_error = document.getElementById('message_error');
 
-   const serviceID = 'service_vi2epuq';
-   const templateID = 'template_5za1ptf';
+  let name_check = /^[a-zA-Z\s]+$/;
+  let email_check = /^([A-Za-z0-9_\-\.])+@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,4})$/;
 
-   emailjs.sendForm(serviceID, templateID, this)
+  // Reset error messages
+  name_error.innerHTML = '';
+  email_error.innerHTML = '';
+  message_error.innerHTML = '';
+
+  let valid = true;
+
+  // Name validation
+  if (name.value === '' || name.value == null) {
+    name_error.innerHTML = "Name is Required";
+    valid = false;
+  } else if (!name_check.test(name.value)) {
+    name_error.innerHTML = "Name Should not contain Numbers";
+    valid = false;
+  }
+
+  // Email validation
+  if (!email.value.match(email_check)) {
+    email_error.innerHTML = "Valid Email is Required";
+    valid = false;
+  }
+
+  // Message validation
+  if (message.value.length <= 15) {
+    message_error.innerHTML = "Message must be above 15 characters";
+    valid = false;
+  }
+
+  if (!valid) {
+    return;
+  }
+
+  // Sending email
+  btn.value = 'Sending...';
+
+  const serviceID = 'service_vi2epuq';
+  const templateID = 'template_5za1ptf';
+
+  emailjs.sendForm(serviceID, templateID, this)
     .then(() => {
       btn.value = 'Send Email';
-      alert('Message Sucssusfully Sented!');
+      alert('Message Successfully Sent!');
     }, (err) => {
       btn.value = 'Send Email';
       alert(JSON.stringify(err));
     });
 });
-
-document.getElementById('form').addEventListener('submit', function(event) {
-  let isValid = true;
-
-  // Clear previous errors
-  const fields = document.querySelectorAll('.field');
-  fields.forEach(field => {
-      const errorSpan = field.querySelector('.error');
-      if (errorSpan) {
-          errorSpan.remove();
-      }
-  });
-
-  // Validate name
-  const name = document.querySelector('input[name="from_name"]').value;
-  if (name.trim() === '') {
-      showError('from_name', 'Name is required');
-      isValid = false;
-  }
-
-  // Validate email
-  const email = document.querySelector('input[name="from_email"]').value;
-  const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailPattern.test(email)) {
-      showError('from_email', 'Invalid email address');
-      isValid = false;
-  }
-
-  // Validate message
-  const message = document.querySelector('textarea[name="message"]').value;
-  if (message.trim() === '') {
-      showError('message', 'Message is required');
-      isValid = false;
-  }
-
-  if (!isValid) {
-      event.preventDefault();
-  }
-});
-
-function showError(fieldName, errorMessage) {
-  const field = document.querySelector(`[name="${fieldName}"]`).parentElement;
-  const errorSpan = document.createElement('span');
-  errorSpan.className = 'error';
-  errorSpan.innerText = errorMessage;
-  field.appendChild(errorSpan);
-}
