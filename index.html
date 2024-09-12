@@ -514,15 +514,18 @@
           <div class="f-container">
             <form id="form">
                 <div class="field">
-                    <input type="text" name="from_name" placeholder="Name" required>
+                    <input type="text" name="from_name" id="fname" placeholder="Name" required>
+                    <span id="name_error" class="error"></span>
                 </div>
                 <div class="field">
-                    <input type="email" name="from_email" placeholder="Email" required>
+                    <input type="email" name="from_email" id="email" placeholder="Email" required>
+                    <span id="email_error" class="error"></span>
                 </div>
                 <div class="field">
-                    <textarea name="message" placeholder="Message" required></textarea>
+                    <textarea name="message" placeholder="Message" id="message" required></textarea>
+                    <span id="message_error" class="error"></span>
                 </div>
-                <input type="submit" id="button" value="Send Email">
+                <input type="submit" id="btn-click" value="Send Email">
             </form>
         </div>
 
@@ -628,7 +631,6 @@
       <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
       <script type="text/javascript">emailjs.init('Dkzd6h_f2XP_LydIu')</script>
       <script src="mail.js"></script>
- 
 </body>
 
 </html>
